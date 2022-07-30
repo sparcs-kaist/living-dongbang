@@ -11,10 +11,19 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+import environ
+import ldap
+from django_auth_ldap.config import LDAPSearch
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# setup environ and specify path for .env file
+env = environ.Env()
+environ.Env.read_env(
+    env_file=os.path.join(BASE_DIR, 'living_dongbang_api', '.env'),
+)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -43,7 +52,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -75,8 +84,11 @@ WSGI_APPLICATION = 'living_dongbang_api.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASSWORD'),
+        'HOST': env('DB_HOST'),
+        'NAME': env('DB_NAME'),
     }
 }
 
@@ -103,9 +115,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ko'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
@@ -121,3 +133,31 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# # Authentication Settings to use LDAP
+AUTHENTICATION_BACKENDS = ["django_auth_ldap.backend.LDAPBackend"]
+
+AUTH_LDAP_SERVER_URI=env('AUTH_LDAP_SERVER_URI')
+AUTH_LDAP_CONNECTION_OPTIONS = {ldap.OPT_REFERRALS: 0}
+
+AUTH_LDAP_START_TLS = False
+
+AUTH_LDAP_BIND_DN=env('AUTH_LDAP_BIND_DN')
+AUTH_LDAP_BIND_PASSWORD=env('AUTH_LDAP_BIND_PASSWORD')
+AUTH_LDAP_USER_SEARCH = LDAPSearch(
+    env('AUTH_LDAP_GROUP_DN'), ldap.SCOPE_SUBTREE, "(uid=%(user)s)"
+)
+
+AUTH_LDAP_USER_ATTR_MAP = {
+    "first_name": "cn",
+    "last_name": "cn",
+    "email":"mail"
+}
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {"console": {"class": "logging.StreamHandler"}},
+    "loggers": {"django_auth_ldap": {"level": "DEBUG", "handlers": ["console"]}},
+}

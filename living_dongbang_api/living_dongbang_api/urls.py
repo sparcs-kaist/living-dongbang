@@ -15,10 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.views.generic.base import RedirectView
 
-from . import views
+from .apps.sample_app import views
+from .apps.auth import views as auth_views
+
+import environ
+env = environ.Env()
 
 urlpatterns = [
+    path('auth/login', auth_views.try_login, name='login'),
+    path('auth/logout', auth_views.try_logout, name='logout'),
     path('admin/', admin.site.urls),
+    path('frontend/', RedirectView.as_view(url=env('FRONTEND_BASE_URL')), name='frontend'),
     path('', views.index, name='index'),
 ]

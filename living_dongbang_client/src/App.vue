@@ -1,15 +1,14 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <DongbangMap />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import DongbangMap from './components/DongbangMap.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    DongbangMap
   }
 }
 </script>

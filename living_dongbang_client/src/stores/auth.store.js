@@ -1,22 +1,33 @@
 import { defineStore } from "pinia";
 import { router } from "../helpers/router";
-import axios from "../helpers/axios";
+import axios from "axios";
+
 export default defineStore({
   id: "auth",
   state: () => ({
-    username: JSON.parse(localStorage.getItem("user")) || null,
+    username: JSON.parse(localStorage.getItem("username")) || null,
+    access_token: JSON.parse(localStorage.getItem("access_token")) || null,
+    refresh_token: JSON.parse(localStorage.getItem("refresh_token")) || null,
     returnUrl: null,
   }),
   actions: {
     async login(username, password) {
       try {
-        const { status, data } = await axios.post("/auth/login", {
+        const axiosWithoutAuth = axios.create({
+          baseURL: process.env.VUE_APP_API_BASE_URL,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const { status, data } = await axiosWithoutAuth.post("/auth/login", {
           username,
           password,
         });
         if (status === 200) {
-          this.username = data.username;
-          localStorage.setItem("user", JSON.stringify(data));
+          const { username, access_token, refresh_token } = data;
+          localStorage.setItem("username", JSON.stringify(username));
+          localStorage.setItem("access_token", JSON.stringify(access_token));
+          localStorage.setItem("refresh_token", JSON.stringify(refresh_token));
           router.push(this.returnUrl || "/");
         }
       } catch (err) {
@@ -25,7 +36,11 @@ export default defineStore({
     },
     logout() {
       this.username = null;
-      localStorage.removeItem("user");
+      this.access_token = null;
+      this.refresh_token = null;
+      localStorage.removeItem("username");
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("refresh_token");
     },
   },
 });

@@ -38,11 +38,7 @@ export default {
 
 <style>
 #login-form {
-    display: inline-block;
-    position: relative;
-    width: 300px;
-    vertical-align: top;
-    padding: 50px;
+
 }
 #logo-img {
     margin: 20px;

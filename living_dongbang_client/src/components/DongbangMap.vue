@@ -8,25 +8,28 @@
 export default {
     data() {
         return {
-            canvas: null,
+            canvas: null
         }
     },
     methods: {
-        rectArea(x, y, w, h, text) {
+        rectArea(x, y, w, h, text, color) {
             const { ctx } = this
             const area = new Path2D()
             ctx.beginPath()
             area.moveTo(0, 0)
+            ctx.lineWidth = 1
+            ctx.lineCap = "round"
+            ctx.lineJoin = "round"
             area.rect(x, y, w, h)
             area.closePath()
-            ctx.fillStyle = "lightgray"
+            ctx.fillStyle = !color ? "#BBBBBB" : color
             ctx.fill(area)
-            ctx.strokeStyle = "black"
+            ctx.strokeStyle = "#333333"
             ctx.stroke(area)
-            ctx.font = "10px Georgia"
             ctx.textAlign = "center"
             ctx.textBaseline = "middle"
-            ctx.fillStyle = "black"
+            ctx.font = "bold 14px NanumSquare"
+            ctx.fillStyle = !color ? "#333333" : color
             ctx.fillText(text, x+w/2, y+h/2)
         },
         rectDesk(x, y, w, h, onClick) {
@@ -34,11 +37,14 @@ export default {
             const desk = new Path2D()
             ctx.beginPath()
             desk.moveTo(0, 0)
+            ctx.lineWidth = 1
+            ctx.lineCap = "round"
+            ctx.lineJoin = "round"
             desk.rect(x, y, w, h)
             desk.closePath()
             ctx.fillStyle = "white"
             ctx.fill(desk)
-            ctx.strokeStyle = "black"
+            ctx.strokeStyle = "#333333"
             ctx.stroke(desk)
             canvas.addEventListener('click', function (e) {
                 if(ctx.isPointInPath(desk, e.offsetX, e.offsetY))
@@ -46,11 +52,11 @@ export default {
             }),
             canvas.addEventListener('mousemove', function (e) {
                 if(ctx.isPointInPath(desk, e.offsetX, e.offsetY))
-                    ctx.fillStyle = "green"
+                    ctx.fillStyle = "#EC8F26"
                 else 
                     ctx.fillStyle = "white"
                 ctx.fill(desk)
-                ctx.strokeStyle = "black"
+                ctx.strokeStyle = "#333333"
                 ctx.stroke(desk)
             })
         },
@@ -70,6 +76,9 @@ export default {
             }]
             ctx.beginPath()
             desk.moveTo(x, y)
+            ctx.lineWidth = 1
+            ctx.lineCap = "round"
+            ctx.lineJoin = "round"
             if(a === 1) {
                 path.map(c => desk.lineTo(x+c.x, y+c.y))
             } else if(a === 2) {
@@ -78,7 +87,7 @@ export default {
             desk.closePath()
             ctx.fillStyle = "white"
             ctx.fill(desk)
-            ctx.strokeStyle = "black"
+            ctx.strokeStyle = "#333333"
             ctx.stroke(desk)
             canvas.addEventListener('click', function (e) {
                 if(ctx.isPointInPath(desk, e.offsetX, e.offsetY))
@@ -86,11 +95,11 @@ export default {
             })
             canvas.addEventListener('mousemove', function (e) {
                 if(ctx.isPointInPath(desk, e.offsetX, e.offsetY))
-                    ctx.fillStyle = "green"
+                    ctx.fillStyle = "#EC8F26"
                 else 
                     ctx.fillStyle = "white"
                 ctx.fill(desk)
-                ctx.strokeStyle = "black"
+                ctx.strokeStyle = "#333333"
                 ctx.stroke(desk)
             })
         }
@@ -99,6 +108,7 @@ export default {
         this.canvas = this.$refs.canvas
         this.ctx = this.$refs.canvas.getContext('2d')
         
+        this.rectArea(0, 0, 500, 512, "", "#FEF8EF")
         this.rectArea(0, 0, 129, 342, "C사이트")
         this.rectArea(0, 492, 75, 20, "문")
         this.rectArea(480, 225, 20, 75, "문")
@@ -146,5 +156,7 @@ export default {
 <style>
 #dongbang-map {
     display: inline-block;
+    font-family: var(--font-kor);
+    padding: 30px 0;
 }
 </style>

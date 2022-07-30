@@ -39,6 +39,7 @@ export default {
   --green: #2AEBA1;
   --pink: #EB2A74;
   --blue: #2A74EB;
+  --beige: #FEF8EF;
   --font-eng: Raleway;
   --font-kor: NanumSquare;
   --font-small: 12px;

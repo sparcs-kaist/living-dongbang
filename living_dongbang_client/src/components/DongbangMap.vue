@@ -43,6 +43,15 @@ export default {
             canvas.addEventListener('click', function (e) {
                 if(ctx.isPointInPath(desk, e.offsetX, e.offsetY))
                     onClick()
+            }),
+            canvas.addEventListener('mousemove', function (e) {
+                if(ctx.isPointInPath(desk, e.offsetX, e.offsetY))
+                    ctx.fillStyle = "green"
+                else 
+                    ctx.fillStyle = "white"
+                ctx.fill(desk)
+                ctx.strokeStyle = "black"
+                ctx.stroke(desk)
             })
         },
         arcDesk(x, y, w, h, a, onClick) {
@@ -74,6 +83,15 @@ export default {
             canvas.addEventListener('click', function (e) {
                 if(ctx.isPointInPath(desk, e.offsetX, e.offsetY))
                     onClick()
+            })
+            canvas.addEventListener('mousemove', function (e) {
+                if(ctx.isPointInPath(desk, e.offsetX, e.offsetY))
+                    ctx.fillStyle = "green"
+                else 
+                    ctx.fillStyle = "white"
+                ctx.fill(desk)
+                ctx.strokeStyle = "black"
+                ctx.stroke(desk)
             })
         }
     },

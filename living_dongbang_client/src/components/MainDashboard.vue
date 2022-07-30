@@ -2,16 +2,19 @@
     <div>
         <TimeSlider />
         <CurrentClock />
+        <WikiQuotes />
     </div>
 </template>
 
 <script>
 import CurrentClock from './CurrentClock.vue'
 import TimeSlider from './TimeSlider.vue';
+import WikiQuotes from './WikiQuotes.vue';
 export default {
     components: {
         CurrentClock,
-        TimeSlider
+        TimeSlider,
+        WikiQuotes
     },
     data() {
         return {

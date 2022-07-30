@@ -15,10 +15,14 @@ export default {
         }
     },
     methods: {
+        formatTime(time) {
+            if(time < 10) return "0" + time;
+            else return time
+        },
         updateTime() {
             const today = new Date()
-            const date = today.getFullYear()+'.'+(today.getMonth()+1)+'.'+today.getDate()
-            const time = today.getHours() + ":" + today.getMinutes() //+ ":" + today.getSeconds()
+            const date = today.getFullYear() + '.' + this.formatTime(today.getMonth()+1) + '.' + this.formatTime(today.getDate())
+            const time = this.formatTime(today.getHours()) + ":" + this.formatTime(today.getMinutes()) //+ ":" + today.getSeconds()
             this.date = date
             this.time = time
         }

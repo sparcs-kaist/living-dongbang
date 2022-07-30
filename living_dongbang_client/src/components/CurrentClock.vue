@@ -10,8 +10,8 @@ export default {
     data() {
         return {
             timer: null,
-            date: '',
-            time: ''
+            date: '0000.00.00',
+            time: '00:00'
         }
     },
     methods: {

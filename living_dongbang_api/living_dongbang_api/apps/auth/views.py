@@ -1,19 +1,28 @@
-from django.http import HttpResponse
+from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login, logout
+import json
 
 
 # Create your views here.
 def try_login(request):
     # try defualt authentication
-    username = request.POST['username']
-    password = request.POST['password']
-    user = authenticate(request, username=username, password=password)
-    if user is not None:
-        login(request, user)
-    # 로그인 시도 후 프론트엔드 첫 페이지로 리다이렉트
-    return redirect('/frontend')
+    try:
+        data = json.loads(request.body)
+        username = data['username']
+        password = data['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            request.session['username'] = username
+            result = {'result': 'success'}
+            result['username'] = username
+            return JsonResponse(result, status=200)
+        else:
+            return JsonResponse({'result': 'failure'}, status=400)
+    except:
+        return JsonResponse({'result': 'failure'}, status=400)
 
 def try_logout(request):
     logout(request)
-    return HttpResponse('success')
+    return JsonResponse({'result': 'success'})

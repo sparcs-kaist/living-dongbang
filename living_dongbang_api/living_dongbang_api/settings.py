@@ -46,13 +46,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware', # disabled for API testing!!!
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -135,6 +137,11 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+# CORS Setup
+CORS_ORIGIN_WHITELIST = [ env('FRONTEND_BASE_URL'), ]
+CORS_ALLOW_CREDENTIALS = True
+
+
 # # Authentication Settings to use LDAP
 AUTHENTICATION_BACKENDS = ["django_auth_ldap.backend.LDAPBackend"]
 
@@ -155,9 +162,10 @@ AUTH_LDAP_USER_ATTR_MAP = {
     "email":"mail"
 }
 
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "handlers": {"console": {"class": "logging.StreamHandler"}},
-    "loggers": {"django_auth_ldap": {"level": "DEBUG", "handlers": ["console"]}},
-}
+# LDAP Auth Backend logging
+# LOGGING = {
+#     "version": 1,
+#     "disable_existing_loggers": False,
+#     "handlers": {"console": {"class": "logging.StreamHandler"}},
+#     "loggers": {"django_auth_ldap": {"level": "DEBUG", "handlers": ["console"]}},
+# }

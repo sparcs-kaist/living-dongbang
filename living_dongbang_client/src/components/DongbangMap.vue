@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="dongbang-map">
         <canvas id="canvas" ref="canvas" width="500" height="512" style="border: solid 1px black"></canvas>
     </div>
 </template>
@@ -142,3 +142,9 @@ export default {
     }
 }
 </script>
+
+<style>
+#dongbang-map {
+    display: inline-block;
+}
+</style>

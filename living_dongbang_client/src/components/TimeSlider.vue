@@ -35,10 +35,12 @@ export default {
 #time-slider {
     -webkit-appearance: none;
     appearance: none;
+    width: calc(100% - 20px);
     height: 10px;
     background: var(--light-gray);
     padding: 0;
     border: none;
+    border-radius: 5px;
     margin-bottom: 20px;
 }
 #time-slider::-webkit-slider-thumb {

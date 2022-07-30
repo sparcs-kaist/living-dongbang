@@ -64,7 +64,7 @@ export default {
             ctx.textBaseline = "middle"
             ctx.font = "bold 14px NanumSquare"
             ctx.fillStyle = "#333333"
-            if(reserved && this.user) ctx.fillText(username, x+w/2, y+h/2)
+            ctx.fillText(username, x+w/2, y+h/2)
             canvas.addEventListener('click', function (e) {
                 if(ctx.isPointInPath(desk, e.offsetX, e.offsetY))
                     onClick()
@@ -72,7 +72,6 @@ export default {
             canvas.addEventListener('mousemove', function (e) {
                 if(reserved) {
                     ctx.fillStyle = "red"
-                    if(this.user) ctx.fillText(username, x+w/2, y+h/2)
                 } else if(ctx.isPointInPath(desk, e.offsetX, e.offsetY)) {
                     ctx.fillStyle = "#EC8F26"
                 } else {
@@ -81,6 +80,8 @@ export default {
                 ctx.fill(desk)
                 ctx.strokeStyle = "#333333"
                 ctx.stroke(desk)
+                ctx.fillStyle = "#333333"
+                ctx.fillText(username, x+w/2, y+h/2)
             })
         },
         arcDesk(x, y, w, h, a, onClick, label) {
@@ -121,7 +122,11 @@ export default {
             ctx.textBaseline = "middle"
             ctx.font = "bold 14px NanumSquare"
             ctx.fillStyle = "#333333"
-            if(reserved && this.user) ctx.fillText(username, x+w/2, y+h/2)
+            if(a === 1) {
+                ctx.fillText(username, x+35*w, y-20*h)
+            } else if(a === 2) {
+                ctx.fillText(username, x-35*h, y+20*w)
+            }
             canvas.addEventListener('click', function (e) {
                 if(ctx.isPointInPath(desk, e.offsetX, e.offsetY))
                     onClick()
@@ -129,7 +134,6 @@ export default {
             canvas.addEventListener('mousemove', function (e) {
                 if(reserved) {
                     ctx.fillStyle = "red"
-                    if(this.user) ctx.fillText(username, x+w/2, y+h/2)
                 } else if(ctx.isPointInPath(desk, e.offsetX, e.offsetY)) {
                     ctx.fillStyle = "#EC8F26"
                 } else {
@@ -138,6 +142,12 @@ export default {
                 ctx.fill(desk)
                 ctx.strokeStyle = "#333333"
                 ctx.stroke(desk)
+                ctx.fillStyle = "#333333"
+                if(a === 1) {
+                    ctx.fillText(username, x+35*w, y-20*h)
+                } else if(a === 2) {
+                    ctx.fillText(username, x-35*h, y+20*w)
+                }
             })
         },
         drawDongbang() {

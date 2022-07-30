@@ -1,11 +1,13 @@
 <template>
   <div class="left-panel"><LoginForm /></div>
-  <DongbangMap />
+  <DongbangMap :reserveStatus="reserveStatus" />
 </template>
 
 <script>
 import DongbangMap from "../components/DongbangMap.vue";
 import LoginForm from "../components/LoginForm.vue";
+
+import reserveStatus from "../data/reserveStatus";
 
 export default {
   name: "LoginPage",
@@ -15,7 +17,7 @@ export default {
   },
   data() {
     return {
-      user: "null",
+      reserveStatus: reserveStatus
     };
   },
 };

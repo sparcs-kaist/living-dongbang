@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.views.generic.base import RedirectView
+from rest_framework_simplejwt.views import token_verify, token_refresh
 
 from .apps.sample_app import views
 from .apps.auth import views as auth_views
@@ -27,6 +28,8 @@ urlpatterns = [
     path('auth/login', auth_views.try_login, name='login'),
     path('auth/logout', auth_views.try_logout, name='logout'),
     path('admin/', admin.site.urls),
+    path('api/token/verify', token_verify, name='verify_jwt_token'),
+    path('api/token/refresh', token_refresh, name='refresh_jwt_token'),
     path('frontend/', RedirectView.as_view(url=env('FRONTEND_BASE_URL')), name='frontend'),
     path('', views.index, name='index'),
 ]

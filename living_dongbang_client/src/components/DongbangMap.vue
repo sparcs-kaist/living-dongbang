@@ -13,27 +13,41 @@ export default {
     },
     methods: {
         rectArea(x, y, w, h, text) {
-            this.canvas.beginPath()
-            this.canvas.moveTo(0, 0)
-            this.canvas.rect(x, y, w, h)
-            this.canvas.fillStyle = "lightgray"
-            this.canvas.fill()
-            this.canvas.strokeStyle = "black"
-            this.canvas.stroke()
-            this.canvas.font = "10px Georgia"
-            this.canvas.textAlign = "center"
-            this.canvas.textBaseline = "middle"
-            this.canvas.fillStyle = "black"
-            this.canvas.fillText(text, x+w/2, y+h/2)
+            const { ctx } = this
+            const area = new Path2D()
+            ctx.beginPath()
+            area.moveTo(0, 0)
+            area.rect(x, y, w, h)
+            area.closePath()
+            ctx.fillStyle = "lightgray"
+            ctx.fill(area)
+            ctx.strokeStyle = "black"
+            ctx.stroke(area)
+            ctx.font = "10px Georgia"
+            ctx.textAlign = "center"
+            ctx.textBaseline = "middle"
+            ctx.fillStyle = "black"
+            ctx.fillText(text, x+w/2, y+h/2)
         },
-        rectDesk(x, y, w, h) {
-            this.canvas.beginPath()
-            this.canvas.moveTo(0, 0)
-            this.canvas.rect(x, y, w, h)
-            this.canvas.strokeStyle = "black"
-            this.canvas.stroke()
+        rectDesk(x, y, w, h, onClick) {
+            const { canvas, ctx } = this
+            const desk = new Path2D()
+            ctx.beginPath()
+            desk.moveTo(0, 0)
+            desk.rect(x, y, w, h)
+            desk.closePath()
+            ctx.fillStyle = "white"
+            ctx.fill(desk)
+            ctx.strokeStyle = "black"
+            ctx.stroke(desk)
+            canvas.addEventListener('click', function (e) {
+                if(ctx.isPointInPath(desk, e.offsetX, e.offsetY))
+                    onClick()
+            })
         },
-        arcDesk(x, y, w, h, a) {
+        arcDesk(x, y, w, h, a, onClick) {
+            const { canvas, ctx } = this
+            const desk = new Path2D()
             const path = [{
                 x: 59*w, y: 0
             }, {
@@ -45,20 +59,28 @@ export default {
             }, {
                 x: 0, y: -38*h
             }]
-            this.canvas.beginPath()
-            this.canvas.moveTo(x, y)
+            ctx.beginPath()
+            desk.moveTo(x, y)
             if(a === 1) {
-                path.map(c => this.canvas.lineTo(x+c.x, y+c.y))
+                path.map(c => desk.lineTo(x+c.x, y+c.y))
             } else if(a === 2) {
-                path.map(c => this.canvas.lineTo(x+c.y, y+c.x))
+                path.map(c => desk.lineTo(x+c.y, y+c.x))
             }
-            this.canvas.closePath()
-            this.canvas.strokeStyle = "black"
-            this.canvas.stroke()
+            desk.closePath()
+            ctx.fillStyle = "white"
+            ctx.fill(desk)
+            ctx.strokeStyle = "black"
+            ctx.stroke(desk)
+            canvas.addEventListener('click', function (e) {
+                if(ctx.isPointInPath(desk, e.offsetX, e.offsetY))
+                    onClick()
+            })
         }
     },
     mounted() {
-        this.canvas = this.$refs.canvas.getContext('2d')
+        this.canvas = this.$refs.canvas
+        this.ctx = this.$refs.canvas.getContext('2d')
+        
         this.rectArea(0, 0, 129, 342, "C사이트")
         this.rectArea(0, 492, 75, 20, "문")
         this.rectArea(480, 225, 20, 75, "문")
@@ -68,37 +90,37 @@ export default {
 
         var startX = 151
         var startY = 0
-        this.rectDesk(startX, startY, width, height)
-        this.rectDesk(startX+width, startY, width, height)
-        this.rectDesk(startX+2*width, startY, width, height)
+        this.rectDesk(startX, startY, width, height, () => console.log("A1"))
+        this.rectDesk(startX+width, startY, width, height, () => console.log("A2"))
+        this.rectDesk(startX+2*width, startY, width, height, () => console.log("A3"))
 
         startX = 151
         startY = 102
-        this.rectDesk(startX, startY, width, height)
-        this.rectDesk(startX, startY+height, width, height)
-        this.rectDesk(startX+width, startY, width, height)
-        this.rectDesk(startX+width, startY+height, width, height)
+        this.rectDesk(startX, startY, width, height, () => console.log("A4"))
+        this.rectDesk(startX+width, startY, width, height, () => console.log("A5"))
+        this.rectDesk(startX, startY+height, width, height, () => console.log("A6"))
+        this.rectDesk(startX+width, startY+height, width, height, () => console.log("A7"))
 
         startX = 404
         startY = 330
-        this.rectDesk(startX, startY, height, width)
-        this.rectDesk(startX+height, startY, height, width)
-        this.rectDesk(startX, startY+width, height, width)
-        this.rectDesk(startX+height, startY+width, height, width)
+        this.rectDesk(startX, startY, height, width, () => console.log("A8"))
+        this.rectDesk(startX+height, startY, height, width, () => console.log("A9"))
+        this.rectDesk(startX, startY+width, height, width, () => console.log("A10"))
+        this.rectDesk(startX+height, startY+width, height, width, () => console.log("A11"))
 
         startX = 242
         startY = 310
-        this.arcDesk(startX, startY, 1, 1, 1)
-        this.arcDesk(startX, startY, 1, -1, 1)
-        this.arcDesk(startX, startY, -1, -1, 1)
-        this.arcDesk(startX, startY, -1, 1, 1)
+        this.arcDesk(startX, startY, 1, 1, 1, () => console.log("B6"))
+        this.arcDesk(startX, startY, 1, -1, 1, () => console.log("B8"))
+        this.arcDesk(startX, startY, -1, -1, 1, () => console.log("B7"))
+        this.arcDesk(startX, startY, -1, 1, 1, () => console.log("B5"))
 
         startX = 397
         startY = 149
-        this.arcDesk(startX, startY, 1, 1, 2)
-        this.arcDesk(startX, startY, 1, -1, 2)
-        this.arcDesk(startX, startY, -1, -1, 2)
-        this.arcDesk(startX, startY, -1, 1, 2)
+        this.arcDesk(startX, startY, 1, 1, 2, () => console.log("B3"))
+        this.arcDesk(startX, startY, 1, -1, 2, () => console.log("B4"))
+        this.arcDesk(startX, startY, -1, -1, 2, () => console.log("B2"))
+        this.arcDesk(startX, startY, -1, 1, 2, () => console.log("B1"))
     }
 }
 </script>

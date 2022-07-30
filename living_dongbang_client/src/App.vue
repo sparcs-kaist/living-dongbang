@@ -1,45 +1,29 @@
 <template>
-  <div class="left-panel" v-if="user"><MainDashboard /></div>
-  <div class="left-panel" v-else><LoginForm /></div>
-  <DongbangMap />
+  <router-view />
 </template>
 
 <script>
-import DongbangMap from './components/DongbangMap.vue'
-import LoginForm from './components/LoginForm.vue'
-import MainDashboard from './components/MainDashboard.vue'
-
 export default {
-  name: 'App',
-  components: {
-    DongbangMap,
-    LoginForm,
-    MainDashboard
-  },
-  data() {
-    return {
-      user: "null"
-    }
-  }
-}
+  name: "App",
+};
 </script>
 
 <style>
-@import url('//fonts.googleapis.com/css?family=Raleway');
-@import url('https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css');
+@import url("//fonts.googleapis.com/css?family=Raleway");
+@import url("https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css");
 
 :root {
-  --orange: #EBA12A;
-  --dark-orange: #EC8F26;
-  --white: #FFFFFF;
-  --light-gray: #BBBBBB;
+  --orange: #eba12a;
+  --dark-orange: #ec8f26;
+  --white: #ffffff;
+  --light-gray: #bbbbbb;
   --gray: #777777;
   --dark-gray: #333333;
   --black: #000000;
-  --green: #2AEBA1;
-  --pink: #EB2A74;
-  --blue: #2A74EB;
-  --beige: #FEF8EF;
+  --green: #2aeba1;
+  --pink: #eb2a74;
+  --blue: #2a74eb;
+  --beige: #fef8ef;
   --font-eng: Raleway;
   --font-kor: NanumSquare;
   --font-small: 12px;
@@ -53,12 +37,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: var(--dark-gray);
-}
-.left-panel {
-    display: inline-block;
-    position: relative;
-    width: 300px;
-    vertical-align: top;
-    padding: 50px;
 }
 </style>

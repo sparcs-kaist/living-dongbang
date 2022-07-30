@@ -1,14 +1,17 @@
 <template>
-    <div id="main-dashboard">
+    <div>
+        <TimeSlider />
         <CurrentClock />
     </div>
 </template>
 
 <script>
 import CurrentClock from './CurrentClock.vue'
+import TimeSlider from './TimeSlider.vue';
 export default {
-    components: { 
-        CurrentClock 
+    components: {
+        CurrentClock,
+        TimeSlider
     },
     data() {
         return {

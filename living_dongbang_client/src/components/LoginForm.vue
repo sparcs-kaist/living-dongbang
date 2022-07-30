@@ -37,9 +37,6 @@ export default {
 </script>
 
 <style>
-#login-form {
-
-}
 #logo-img {
     margin: 20px;
 }

@@ -6,23 +6,20 @@
 </template>
 
 <script>
+import currentTime from "../helpers/time"
+
 export default {
     data() {
         return {
             timer: null,
-            date: '0000.00.00',
-            time: '00:00'
+            date: "0000.00.00",
+            time: "00:00"
         }
     },
     methods: {
-        formatTime(time) {
-            if(time < 10) return "0" + time;
-            else return time
-        },
         updateTime() {
             const today = new Date()
-            const date = today.getFullYear() + '.' + this.formatTime(today.getMonth()+1) + '.' + this.formatTime(today.getDate())
-            const time = this.formatTime(today.getHours()) + ":" + this.formatTime(today.getMinutes()) //+ ":" + today.getSeconds()
+            const { date, time } = currentTime(today)
             this.date = date
             this.time = time
         }

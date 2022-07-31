@@ -1,14 +1,13 @@
 from django.db import models
+from user.models import User
+from seat.models import Seat
 
 # Create your models here.
 class Schedule(models.Model):
-    # UUID
-    uuid = models.CharField(max_length=36, primary_key=True)
-    # UUID of the user
-    user_uuid = models.CharField(max_length=36)
-    # UUID of the seat associated with the schedule(many-to-many)
-    seat_uuid = models.CharField(max_length=36)
-    # Starting time in UTC
     start_time = models.DateTimeField()
-    # Ending time in UTC
     end_time = models.DateTimeField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    seat = models.ManyToManyField(Seat)
+
+    class Meta:
+        app_label = 'schedule'

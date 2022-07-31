@@ -12,13 +12,16 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import datetime
+import sys
 import os
 import environ
 import ldap
 from django_auth_ldap.config import LDAPSearch
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+sys.path.insert(0, os.path.join(BASE_DIR, 'living_dongbang_api', 'apps'))
 
 # setup environ and specify path for .env file
 env = environ.Env()
@@ -48,7 +51,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
+    'user',
+    'seat',
+    'schedule',
 ]
+
+AUTH_USER_MODEL='user.User'
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',

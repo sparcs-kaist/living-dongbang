@@ -5,9 +5,9 @@ import axios from "axios";
 export default defineStore({
   id: "auth",
   state: () => ({
-    username: JSON.parse(localStorage.getItem("username")) || null,
-    access_token: JSON.parse(localStorage.getItem("access_token")) || null,
-    refresh_token: JSON.parse(localStorage.getItem("refresh_token")) || null,
+    username: null,
+    access_token: null,
+    refresh_token: null,
     returnUrl: null,
   }),
   actions: {
@@ -25,9 +25,9 @@ export default defineStore({
         });
         if (status === 200) {
           const { username, access_token, refresh_token } = data;
-          localStorage.setItem("username", JSON.stringify(username));
-          localStorage.setItem("access_token", JSON.stringify(access_token));
-          localStorage.setItem("refresh_token", JSON.stringify(refresh_token));
+          this.username = username;
+          this.access_token = access_token;
+          this.refresh_token = refresh_token;
           router.push(this.returnUrl || "/");
         }
       } catch (err) {
@@ -38,9 +38,6 @@ export default defineStore({
       this.username = null;
       this.access_token = null;
       this.refresh_token = null;
-      localStorage.removeItem("username");
-      localStorage.removeItem("access_token");
-      localStorage.removeItem("refresh_token");
     },
   },
 });
